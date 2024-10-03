@@ -44,6 +44,10 @@ runs:
           REF: ${{ inputs.reference }}
           REPO: ${{ inputs.repository }}
           
+      - name: Wait for the workflow to be triggered 
+        run: sleep 15
+        shell: bash
+        
       - name: Get run ID
         id: run_id
         run: |
