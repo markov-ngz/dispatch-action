@@ -53,6 +53,7 @@ runs:
         env:
           WORKFLOW_FILE: ${{ inputs.workflow_file }}
           REPO: ${{ inputs.repository }}
+          GH_TOKEN: ${{inputs.token}}
           
       - name: Check run status
         id: status
@@ -61,3 +62,4 @@ runs:
         env:
           REPO: ${{ inputs.repository }}
           RUN_ID: ${{ steps.run_id.outputs.ID }}
+          GH_TOKEN: ${{ inputs.token }}
