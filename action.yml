@@ -41,7 +41,7 @@ runs:
           VARIABLES: ${{ inputs.variables }}
           GH_TOKEN: ${{inputs.token}}
           WORKFLOW_FILE: ${{ inputs.workflow_file }}
-          REF: ${{ intputs.reference }}
+          REF: ${{ inputs.reference }}
           REPO: ${{ inputs.repository }}
           
       - name: Get run ID
