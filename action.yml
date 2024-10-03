@@ -13,6 +13,10 @@ inputs:
     description: 'Workflow s repository'
     required: true
     type: string
+  variables:
+    description: 'Variable to add to run the workflow dispatch event'
+    required: false
+    type: string
   reference:
     description: 'Branch where the desired workflow file is wanted'
     required: false
@@ -23,9 +27,18 @@ runs:
   using: "composite"
   steps:
       - name: Trigger Workflow
-        run: gh workflow run $WORKFLOW_FILE --ref $REF --repo $REPO
+        run: |
+          export IN=$VARIABLES
+          export GH_COMMAND="gh workflow run $WORKFLOW_FILE --ref $REF --repo $REPO"
+          while IFS=',' read -ra IN; do
+          for i in "${IN[@]}";do
+              GH_COMMAND+=" -f $i"
+            done
+          done <<< "$IN"
+          $GH_COMMAND
         shell: bash
         env: 
+          VARIABLES: ${{ inputs.variables }}
           GH_TOKEN: ${{inputs.token}}
           WORKFLOW_FILE: ${{ inputs.workflow_file }}
           REF: ${{ intputs.reference }}
